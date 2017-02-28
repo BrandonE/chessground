@@ -110,7 +110,7 @@ export function start(state: State, redrawAll: cg.Redraw): Api {
     },
 
     startDrag(e) {
-      anim(state => dragStart(state, e), state);
+      render(state => dragStart(state, e), state);
     },
 
     move(orig, dest) {
