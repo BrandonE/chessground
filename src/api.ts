@@ -4,7 +4,7 @@ import { raf } from './util'
 import { write as fenWrite } from './fen'
 import { Config, configure } from './config'
 import { anim, render } from './anim'
-import { cancel as dragCancel } from './drag'
+import { start as dragStart, cancel as dragCancel } from './drag'
 import { DrawShape } from './draw'
 import explosion from './explosion'
 import * as cg from './types'
@@ -24,6 +24,9 @@ export interface Api {
 
   // change the view angle
   toggleOrientation(): void;
+
+  // drag a piece
+  startDrag(e: cg.MouchEvent): void;
 
   // perform a move programmatically
   move(orig: cg.Key, dest: cg.Key): void;
@@ -104,6 +107,10 @@ export function start(state: State, redrawAll: cg.Redraw): Api {
 
     selectSquare(key) {
       if (key || state.selected) render(state => board.selectSquare(state, key), state);
+    },
+
+    startDrag(e) {
+      anim(state => dragStart(state, e), state);
     },
 
     move(orig, dest) {
